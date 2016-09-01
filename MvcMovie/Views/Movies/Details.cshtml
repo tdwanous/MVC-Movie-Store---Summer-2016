@@ -1,0 +1,64 @@
+﻿@model MvcMovie.Models.Movie
+
+@{
+    ViewBag.Title = "Details";
+}
+<h2>Details</h2>
+
+<div>
+	<hr />
+    @if (Model.posterLink != null)
+    {
+        <img src="@Url.Content(Model.posterLink)" alt="model.Title" height="422" width="300" />
+    }
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+         @*Markup omitted for clarity.*@
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ReleaseDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReleaseDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Genre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Genre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+
+        <dd>
+            @if (Model.isDiscounted == true)
+            {
+               <div style="color:red" >@Html.DisplayFor(model => model.DiscountPrice)</div><s>@Html.DisplayFor(model => model.Price)</s>
+            }
+            else
+            {
+            @Html.DisplayFor(model => model.Price)
+            }
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Rating)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Rating)
+        </dd>
+    </dl>
+</div>
+
+<a href="@Url.Action("Index", "Movies")" class="btn btn-primary">Back to List</a>&nbsp;<a href="@Url.Action("AddToCart", "ShoppingCart", new { Id = Model.ID }, "")" class="btn btn-danger">Add to Cart</a>
+

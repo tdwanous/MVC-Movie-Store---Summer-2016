@@ -1,0 +1,38 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>Minnesota Movie Store</h1>
+    <p class="lead">This website is a collaboration between students in IS 445 at St. Cloud State
+                    University and Employees of Wolters Kluwer Financial Services, to learn more about
+                    MVC, C#, and ASP.NET web pages.</p>
+    <p><a href="~/Movies/Index" class="btn btn-primary btn-large">Check out some Movies! &raquo;</a></p>
+</div>
+
+<div class="row">
+    <div class="col-md-4" style="text-align:center">
+        <h2 >Featured</h2>
+        <p>
+            <a href="@Url.Action("Details", "Movies", new { id = Model.FeaturedMovie.ID} )"><img src="@Url.Content(Model.FeaturedMovie.posterLink)" height="422" width="300"></a>
+        </p>
+        <h3>@Model.FeaturedMovieTitle</h3>
+        <h4>Buy for @Model.FeaturedPrice</h4>
+    </div>
+    <div class="col-md-4" style="text-align:center">
+        <h2>Discounted</h2>
+        <p>
+            <a href="@Url.Action("Details", "Movies", new {id = Model.DiscountedMovie.ID} )"><img src="@Url.Content(Model.DiscountedMovie.posterLink)" height="422" width="300" /></a>
+        </p>
+        <h3>@Model.DiscountedMovieTitle</h3>
+        <h4>Was <s>@Model.DiscountPrice</s> now @Model.DiscountDiscount</h4>
+    </div>
+    <div class="col-md-4" style="text-align:center">
+        <h2>Upcoming</h2>
+        <p>
+            <a href="@Url.Action("Details", "Movies", new {id = Model.UpcomingMovie.ID} )"><img src="@Url.Content(Model.UpcomingMovie.posterLink)" height="422", width="300" /></a>
+        </p>
+        <h3>@Model.UpcomingMovieTitle</h3>
+        <h4>Will be @Model.UpcomingPrice</h4>
+    </div>
+</div>

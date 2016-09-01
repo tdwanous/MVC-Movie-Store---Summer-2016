@@ -1,0 +1,86 @@
+﻿@model PagedList.IPagedList<MvcMovie.Models.Movie>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+@{
+    ViewBag.Title = "Index";
+}
+<h2>Movie Collection</h2>
+<p>
+    @using (Html.BeginForm("Index", "Movies", FormMethod.Get))
+    {
+    <p>
+        Genre: @Html.DropDownList("movieGenre", "All")
+        Title: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+        <input type="submit" value="Filter" />
+    </p>
+    }
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.ActionLink("Title", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter=ViewBag.CurrentFilter })
+        </th>
+        <th>
+            @Html.ActionLink("Release Date", "Index", new { sortOrder = ViewBag.DateSortParm, currentFilter=ViewBag.CurrentFilter})
+        </th>
+        <th>
+            Genre
+        </th>
+        <th>
+            Price
+        </th>
+        <th>
+            Rating
+        </th>
+
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @if (item.ReleaseDate > DateTime.Now)
+            {
+                <div><div style="color:red">Coming Soon!</div> @Html.DisplayFor(modelItem => item.Title)</div>
+            }
+            else if (item.isFeatured == true)
+            {
+                <div style="color:red">Featured!</div> @Html.DisplayFor(modelItem => item.Title)
+            }
+            else
+            { 
+                @Html.DisplayFor(modelItem => item.Title)
+            }
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ReleaseDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Genre)
+        </td>
+        <td>
+            @if (item.isDiscounted == true)
+            {
+             <div style="color:red"> @Html.DisplayFor(modelItem => item.DiscountPrice)</div>  <s>@Html.DisplayFor(modelItem => item.Price)</s>
+            }
+            else
+            {
+                @Html.DisplayFor(modelItem => item.Price)
+            }
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Rating)
+        </td>
+
+        <td>
+            <a href="@Url.Action("Details", "Movies", new { id=item.ID })" class="btn btn-default">Details</a>
+        </td>
+    </tr>
+}
+
+</table>
+<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index",
+        new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
